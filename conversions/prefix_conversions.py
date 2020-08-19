@@ -40,9 +40,7 @@ class Binary_Unit(Enum):
 
 
 def convert_si_prefix(
-    known_amount: float,
-    known_prefix: Union[str, SI_Unit],
-    unknown_prefix: Union[str, SI_Unit],
+    known_amount: float, known_prefix: Union[str, SI_Unit], unknown_prefix: Union[str, SI_Unit],
 ) -> float:
     """
     Wikipedia reference: https://en.wikipedia.org/wiki/Binary_prefix
@@ -88,9 +86,7 @@ def convert_binary_prefix(
         known_prefix: Binary_Unit = Binary_Unit[known_prefix.lower()]
     if isinstance(unknown_prefix, str):
         unknown_prefix: Binary_Unit = Binary_Unit[unknown_prefix.lower()]
-    unknown_amount = known_amount * (
-        2 ** ((known_prefix.value - unknown_prefix.value) * 10)
-    )
+    unknown_amount = known_amount * (2 ** ((known_prefix.value - unknown_prefix.value) * 10))
     return unknown_amount
 
 

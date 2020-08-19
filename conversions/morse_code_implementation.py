@@ -1,6 +1,3 @@
-# Python program to implement Morse Code Translator
-
-
 # Dictionary representing the morse code chart
 MORSE_CODE_DICT = {
     "A": ".-",
@@ -53,43 +50,29 @@ def encrypt(message):
     cipher = ""
     for letter in message:
         if letter != " ":
-
             cipher += MORSE_CODE_DICT[letter] + " "
         else:
-
             cipher += " "
-
     return cipher
 
 
 def decrypt(message):
-
     message += " "
-
     decipher = ""
     citext = ""
     for letter in message:
-
         if letter != " ":
-
             i = 0
-
             citext += letter
-
         else:
-
             i += 1
-
             if i == 2:
-
                 decipher += " "
             else:
-
                 decipher += list(MORSE_CODE_DICT.keys())[
                     list(MORSE_CODE_DICT.values()).index(citext)
                 ]
                 citext = ""
-
     return decipher
 
 
