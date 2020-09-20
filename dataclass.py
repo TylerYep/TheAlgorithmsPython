@@ -47,6 +47,15 @@ def test(a):
             y: str = "yooo"
 
         return D()
+    if a == "e":
+
+        @with_slots
+        @dataclass(repr=False, eq=False, order=False)
+        class E:
+            x: int = 4
+            y: str = "yooo"
+
+        return E()
 
 
 NUM = 10000
@@ -57,4 +66,6 @@ print(result)
 result = timeit.timeit(lambda: test("c"), number=NUM)
 print(result)
 result = timeit.timeit(lambda: test("d"), number=NUM)
+print(result)
+result = timeit.timeit(lambda: test("e"), number=NUM)
 print(result)

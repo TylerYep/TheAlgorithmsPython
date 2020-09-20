@@ -1,11 +1,4 @@
-# flake8: noqa
-
-"""
-Binomial Heap
-Reference: Advanced Data Structures, Peter Brass
-"""
-
-
+# type: ignore
 class Node:
     """
     Node in a doubly-linked binomial tree, containing:
@@ -22,7 +15,7 @@ class Node:
         self.right = None
         self.parent = None
 
-    def mergeTrees(self, other):
+    def merge_trees(self, other):
         """
         In-place merge of two binomial trees of equal size.
         Returns the root of the resulting tree
@@ -48,79 +41,13 @@ class Node:
 
 
 class BinomialHeap:
-    r"""
+    """
     Min-oriented priority queue implemented with the Binomial Heap data
     structure implemented with the BinomialHeap class. It supports:
-        - Insert element in a heap with n elements: Guaranteed logn, amoratized 1
-        - Merge (meld) heaps of size m and n: O(logn + logm)
-        - Delete Min: O(logn)
+        - Insert element in a heap with n elements: Guaranteed O(log n), amortized O(1)
+        - Merge (meld) heaps of size m and n: O(log n + log m)
+        - Delete Min: O(log n)
         - Peek (return min without deleting it): O(1)
-
-    Example:
-
-    Create a random permutation of 30 integers to be inserted and 19 of them deleted
-    >>> import numpy as np
-    >>> permutation = np.random.permutation(list(range(30)))
-
-    Create a Heap and insert the 30 integers
-    __init__() test
-    >>> first_heap = BinomialHeap()
-
-    30 inserts - insert() test
-    >>> for number in permutation:
-    ...     first_heap.insert(number)
-
-    Size test
-    >>> print(first_heap.size)
-    30
-
-    Deleting - delete() test
-    >>> for i in range(25):
-    ...     print(first_heap.deleteMin(), end=" ")
-    0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 
-
-    Create a new Heap
-    >>> second_heap = BinomialHeap()
-    >>> vals = [17, 20, 31, 34]
-    >>> for value in vals:
-    ...     second_heap.insert(value)
-
-
-    The heap should have the following structure:
-
-                    17
-                   /  \
-                  #    31
-                      /  \
-                    20    34
-                   /  \  /  \
-                  #    # #   #
-
-    preOrder() test
-    >>> print(second_heap.preOrder())
-    [(17, 0), ('#', 1), (31, 1), (20, 2), ('#', 3), ('#', 3), (34, 2), ('#', 3), ('#', 3)]
-
-    printing Heap - __str__() test
-    >>> print(second_heap)
-    17
-    -#
-    -31
-    --20
-    ---#
-    ---#
-    --34
-    ---#
-    ---#
-
-    mergeHeaps() test
-    >>> merged = second_heap.mergeHeaps(first_heap)
-    >>> merged.peek()
-    17
-
-    values in merged heap; (merge is inplace)
-    >>> while not first_heap.isEmpty():
-    ...     print(first_heap.deleteMin(), end=" ")
-    17 20 25 26 27 28 29 31 34 
     """
 
     def __init__(self, bottom_root=None, min_node=None, heap_size=0):
@@ -128,7 +55,7 @@ class BinomialHeap:
         self.bottom_root = bottom_root
         self.min_node = min_node
 
-    def mergeHeaps(self, other):
+    def merge_heaps(self, other):
         """
         In-place merge of two binomial heaps.
         Both of them become the resulting merged heap
@@ -180,7 +107,7 @@ class BinomialHeap:
                 next_node = i.parent.parent
 
                 # Merging trees
-                i = i.mergeTrees(i.parent)
+                i = i.merge_trees(i.parent)
 
                 # Updating links
                 i.left = previous_node
@@ -238,7 +165,7 @@ class BinomialHeap:
                 next_node = self.bottom_root.parent.parent
 
                 # Merge
-                self.bottom_root = self.bottom_root.mergeTrees(self.bottom_root.parent)
+                self.bottom_root = self.bottom_root.merge_trees(self.bottom_root.parent)
 
                 # Update Links
                 self.bottom_root.parent = next_node
@@ -252,14 +179,14 @@ class BinomialHeap:
         """
         return self.min_node.val
 
-    def isEmpty(self):
+    def is_empty(self):
         return self.size == 0
 
-    def deleteMin(self):
+    def delete_min(self):
         """
         delete min element and return it
         """
-        # assert not self.isEmpty(), "Empty Heap"
+        # assert not self.is_empty(), "Empty Heap"
 
         # Save minimal value
         min_value = self.min_node.val
@@ -354,11 +281,11 @@ class BinomialHeap:
                     self.min_node = i
                 i = i.parent
         # Merge heaps
-        self.mergeHeaps(newHeap)
+        self.merge_heaps(newHeap)
 
         return min_value
 
-    def preOrder(self):
+    def pre_order(self):
         """
         Returns the Pre-order representation of the heap including
         values of nodes plus their level distance from the root;
@@ -369,9 +296,9 @@ class BinomialHeap:
         while top_root.parent:
             top_root = top_root.parent
         # preorder
-        heap_preOrder = []
-        self.__traversal(top_root, heap_preOrder)
-        return heap_preOrder
+        heap_pre_order = []
+        self.__traversal(top_root, heap_pre_order)
+        return heap_pre_order
 
     def __traversal(self, curr_node, preorder, level=0):
         """
@@ -389,15 +316,8 @@ class BinomialHeap:
         Overwriting str for a pre-order print of nodes in heap;
         Performance is poor, so use only for small examples
         """
-        if self.isEmpty():
+        if self.is_empty():
             return ""
-        preorder_heap = self.preOrder()
+        preorder_heap = self.pre_order()
 
         return "\n".join(("-" * level + str(value)) for value, level in preorder_heap)
-
-
-# Unit Tests
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
